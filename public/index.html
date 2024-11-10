@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shared Notepad</title>
+</head>
+<body>
+    <h1>Shared Notepad</h1>
+    <textarea id="notepad" rows="20" cols="60"></textarea>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // Load initial content
+        socket.on('content', (data) => {
+            document.getElementById('notepad').value = data;
+        });
+
+        // Send updates to the server when content changes
+        document.getElementById('notepad').addEventListener('input', () => {
+            const content = document.getElementById('notepad').value;
+            socket.emit('updateContent', content);
+        });
+    </script>
+</body>
+</html>
